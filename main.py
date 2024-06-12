@@ -19,10 +19,10 @@ async def on_ready():
     print_dbg("Bot is online and ready.")
 
 # (SigmaFN) -> Show Debug Message
-def print_dbg(title, text):
+def print_dbg(text):
     current_time = datetime.datetime.now()
     minutes_seconds = current_time.strftime("%M:%S")
-    print(f"{Fore.MAGENTA}[{Fore.WHITE}{minutes_seconds}{Fore.MAGENTA}] {Fore.MAGENTA}({Fore.WHITE}SigmaFN{Fore.MAGENTA}) {Fore.WHITE}-> {title} {Fore.MAGENTA}[{Fore.WHITE}{text}{Fore.MAGENTA}]{Fore.RESET}")
+    print(f"{Fore.MAGENTA}[{Fore.WHITE}{minutes_seconds}{Fore.MAGENTA}] {Fore.MAGENTA}({Fore.WHITE}SigmaFN{Fore.MAGENTA}) {Fore.WHITE}-> {Fore.MAGENTA}[{Fore.WHITE}{text}{Fore.MAGENTA}]{Fore.RESET}")
 
 # (SigmaFN) -> On Message Received Event
 @bot.event
@@ -80,13 +80,13 @@ async def inject_game(ctx, dll_name: str):
             "-AUTH_LOGIN=Player664@projectreboot.dev -AUTH_PASSWORD=Rebooted -AUTH_TYPE=epic -nullrhi -nosplash -nosound"
         )
         await ctx.send("Started Fortnite, waiting for the game to load.") if show_debug_logs else print_dbg("Started Fortnite, waiting for the game to load.")
-        await asyncio.sleep(30)
+        time.sleep(30)
 
         dlls_to_inject = ["cobalt.dll", "memory.dll", dll_name, "console.dll"]
         for dll in dlls_to_inject:
             os.system(f"start C:\\Users\\Administrator\\Desktop\\inj.exe -n FortniteClient-Win64-Shipping.exe -i {dll}")
         await ctx.send("Injected DLLs. Waiting for the game to start.") if show_debug_logs else print_dbg("Injected DLLs. Waiting for the game to start.")
-        await asyncio.sleep(45)
+        time.sleep(45)
         await ctx.send("Game should be starting. Give it around 90 seconds.") if show_debug_logs else print_dbg("Game should be starting. Give it around 90 seconds.")
     except Exception as e:
         await ctx.send(f"An error occurred: {e}") if show_debug_logs else print_dbg(f"An error occurred: {e}")
