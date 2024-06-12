@@ -10,7 +10,8 @@ from colorama import Fore, Back, Style, init
 init(autoreset=True)
 prefix = "?"
 bot = commands.Bot(command_prefix=prefix, intents=discord.Intents.all())
-token = "TOKEN_HERE"
+token = "token"
+caldera = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoiYmU5ZGE1YzJmYmVhNDQwN2IyZjQwZWJhYWQ4NTlhZDQiLCJnZW5lcmF0ZWQiOjE2Mzg3MTcyNzgsImNhbGRlcmFHdWlkIjoiMzgxMGI4NjMtMmE2NS00NDU3LTliNTgtNGRhYjNiNDgyYTg2IiwiYWNQcm92aWRlciI6IkVhc3lBbnRpQ2hlYXQiLCJub3RlcyI6IiIsImZhbGxiYWNrIjpmYWxzZX0.VAWQB67RTxhiWOxx7DBjnzDnXyyEnX7OljJm-j2d88G_WgwQ9wrE6lwMEHZHjBd1ISJdUO1UVUqkfLdU5nofBQ"
 show_debug_logs = False
 
 # (SigmaFN) -> On Ready Event
@@ -76,17 +77,18 @@ async def inject_game(ctx, dll_name: str):
         os.system(
             "start C:\\Users\\Administrator\\Desktop\\14.60\\FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe "
             "-epicapp=Fortnite -epicenv=Prod -epiclocale=en-us -epicportal -skippatchcheck -nobe -fromfl=eac "
-            "-fltoken=3db3ba5dcbd2e16703f3978d -caldera=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9..."
-            "-AUTH_LOGIN=Player664@projectreboot.dev -AUTH_PASSWORD=Rebooted -AUTH_TYPE=epic -nullrhi -nosplash -nosound"
+            f"-fltoken=3db3ba5dcbd2e16703f3978d -caldera={caldera}"
+            "-AUTH_LOGIN=serverhost@vmp.vmp -AUTH_PASSWORD=vmp -AUTH_TYPE=epic -nullrhi -nosplash -nosound"
         )
         await ctx.send("Started Fortnite, waiting for the game to load.") if show_debug_logs else print_dbg("Started Fortnite, waiting for the game to load.")
         time.sleep(30)
 
-        dlls_to_inject = ["cobalt.dll", "memory.dll", dll_name, "console.dll"]
+        dlls_to_inject = ["cobalt.dll", "memory.dll", "console.dll"]
         for dll in dlls_to_inject:
             os.system(f"start C:\\Users\\Administrator\\Desktop\\inj.exe -n FortniteClient-Win64-Shipping.exe -i {dll}")
         await ctx.send("Injected DLLs. Waiting for the game to start.") if show_debug_logs else print_dbg("Injected DLLs. Waiting for the game to start.")
         time.sleep(45)
+        os.system(f"start C:\\Users\\Administrator\\Desktop\\inj.exe -n FortniteClient-Win64-Shipping.exe -i {dll_name}")
         await ctx.send("Game should be starting. Give it around 90 seconds.") if show_debug_logs else print_dbg("Game should be starting. Give it around 90 seconds.")
     except Exception as e:
         await ctx.send(f"An error occurred: {e}") if show_debug_logs else print_dbg(f"An error occurred: {e}")
